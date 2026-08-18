@@ -1,0 +1,11 @@
+services:
+  bot:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATA_DIR: /app/data
+      TEMP_DIR: /tmp/tg_video_compressor
+    volumes:
+      - ./data:/app/data
+    stop_grace_period: 30s

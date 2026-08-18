@@ -1,0 +1,17 @@
+[Unit]
+Description=Telegram video compressor bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/telegram-video-compressor-bot
+EnvironmentFile=/opt/telegram-video-compressor-bot/.env
+ExecStart=/opt/telegram-video-compressor-bot/venv/bin/python -m compressor
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

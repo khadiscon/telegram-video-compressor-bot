@@ -1,0 +1,21 @@
+services:
+  - type: worker
+    name: compressor-bot
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: OWNER_ID
+        sync: false
+      - key: MAX_CONCURRENT_JOBS
+        value: "2"
+      - key: DATA_DIR
+        value: /app/data
+      - key: TEMP_DIR
+        value: /tmp/tg_video_compressor
+    disk:
+      name: compressor-data
+      mountPath: /app/data
+      sizeGB: 1

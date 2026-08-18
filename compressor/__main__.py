@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-"""Entry point: python bot.py"""
-
 from compressor.app import main
 
 if __name__ == "__main__":
