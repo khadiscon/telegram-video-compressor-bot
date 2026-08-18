@@ -434,8 +434,14 @@ async def run_job(
             dst = job_dir / f"compressed_{src.stem}.mp4"
             thumb_path = job_dir / "thumb.jpg"
 
-            tg_file = await context.bot.get_file(media.file_id)
-            await tg_file.download_to_drive(custom_path=str(src))
+            tg_file = await context.bot.get_file(
+                media.file_id, read_timeout=300, write_timeout=300
+            )
+            await tg_file.download_to_drive(
+                custom_path=str(src),
+                read_timeout=3600,
+                write_timeout=3600,
+            )
             if job.cancel.is_set():
                 raise JobCancelled()
 
@@ -495,8 +501,8 @@ async def run_job(
                 "caption": caption,
                 "parse_mode": ParseMode.HTML,
                 "supports_streaming": True,
-                "read_timeout": 180,
-                "write_timeout": 180,
+                "read_timeout": 3600,
+                "write_timeout": 3600,
                 "connect_timeout": 60,
             }
             if reply_to:

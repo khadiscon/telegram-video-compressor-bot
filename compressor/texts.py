@@ -56,8 +56,7 @@ def help_text(cfg: Config) -> str:
             "The bot downloads, encodes to H.264 + AAC MP4 with faststart, "
             "and sends the smaller file back.",
             "",
-            f"Cloud Bot API download cap is 20 MB unless you run a local Bot API server "
-            f"(this instance is set to {cfg.download_limit_mb} MB).",
+            f"This instance accepts videos up to {cfg.download_limit_mb} MB.",
         ]
     )
     return "\n".join(lines)
@@ -146,11 +145,7 @@ def result_caption(
 
 
 def too_large_download(size: int, limit_mb: int) -> str:
-    return (
-        f"This file is {human_size(size)}, over the {limit_mb} MB download limit.\n"
-        "Cloud Telegram bots cannot fetch files above 20 MB. "
-        "Run a local Bot API server (see the README) to raise that cap."
-    )
+    return f"This file is {human_size(size)}, over the {limit_mb} MB download limit."
 
 
 def too_large_upload(size: int, limit_mb: int) -> str:

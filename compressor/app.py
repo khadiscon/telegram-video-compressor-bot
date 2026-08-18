@@ -37,6 +37,8 @@ from compressor.store import Store
 
 logger = logging.getLogger("compressor")
 
+LARGE_IO_TIMEOUT = 3600
+
 
 def configure_logging() -> None:
     logging.basicConfig(
@@ -49,7 +51,16 @@ def configure_logging() -> None:
 
 
 def build_application(cfg: Config) -> Application:
-    builder = ApplicationBuilder().token(cfg.bot_token).concurrent_updates(True)
+    builder = (
+        ApplicationBuilder()
+        .token(cfg.bot_token)
+        .concurrent_updates(True)
+        .connect_timeout(30)
+        .read_timeout(60)
+        .write_timeout(60)
+        .media_write_timeout(LARGE_IO_TIMEOUT)
+        .pool_timeout(30)
+    )
     if cfg.api_base_url:
         builder = builder.base_url(cfg.api_base_url)
     if cfg.api_file_url:

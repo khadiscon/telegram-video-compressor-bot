@@ -78,13 +78,14 @@ def load_config() -> Config:
     temp_dir = Path(os.getenv("TEMP_DIR") or "/tmp/tg_video_compressor")
     data_dir = Path(os.getenv("DATA_DIR") or "./data")
 
-    download_limit = _int("DOWNLOAD_LIMIT_MB", 2000 if local_mode else 20)
-    upload_limit = _int("UPLOAD_LIMIT_MB", 2000 if local_mode else 50)
+    # Local Bot API: personal default is 500 MB. Cloud Telegram is 20 / 50.
+    download_limit = _int("DOWNLOAD_LIMIT_MB", 500 if local_mode else 20)
+    upload_limit = _int("UPLOAD_LIMIT_MB", 500 if local_mode else 50)
 
     return Config(
         bot_token=token,
         owner_id=owner_id,
-        max_concurrent_jobs=max(1, _int("MAX_CONCURRENT_JOBS", 2)),
+        max_concurrent_jobs=max(1, _int("MAX_CONCURRENT_JOBS", 1 if local_mode else 2)),
         per_user_limit=max(1, _int("PER_USER_LIMIT", 1)),
         temp_dir=temp_dir,
         data_dir=data_dir,
@@ -93,7 +94,7 @@ def load_config() -> Config:
         local_mode=local_mode,
         download_limit_mb=download_limit,
         upload_limit_mb=upload_limit,
-        job_timeout_sec=max(30, _int("JOB_TIMEOUT_SEC", 900)),
+        job_timeout_sec=max(30, _int("JOB_TIMEOUT_SEC", 3600 if local_mode else 900)),
         allowed_user_ids=frozenset(allowed),
         private_mode=_bool("PRIVATE_MODE", False),
         ffmpeg_bin=os.getenv("FFMPEG_BIN", "ffmpeg"),

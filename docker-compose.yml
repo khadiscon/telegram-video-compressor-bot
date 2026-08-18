@@ -6,6 +6,14 @@ services:
     environment:
       DATA_DIR: /app/data
       TEMP_DIR: /tmp/tg_video_compressor
+      DOWNLOAD_LIMIT_MB: "500"
+      UPLOAD_LIMIT_MB: "500"
+      MAX_CONCURRENT_JOBS: "1"
+      JOB_TIMEOUT_SEC: "3600"
     volumes:
       - ./data:/app/data
-    stop_grace_period: 30s
+      - bot-api-data:/var/lib/telegram-bot-api
+    stop_grace_period: 60s
+
+volumes:
+  bot-api-data:

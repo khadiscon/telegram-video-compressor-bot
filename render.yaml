@@ -7,15 +7,25 @@ services:
     envVars:
       - key: BOT_TOKEN
         sync: false
+      - key: TELEGRAM_API_ID
+        sync: false
+      - key: TELEGRAM_API_HASH
+        sync: false
       - key: OWNER_ID
         sync: false
+      - key: DOWNLOAD_LIMIT_MB
+        value: "500"
+      - key: UPLOAD_LIMIT_MB
+        value: "500"
       - key: MAX_CONCURRENT_JOBS
-        value: "2"
+        value: "1"
+      - key: JOB_TIMEOUT_SEC
+        value: "3600"
       - key: DATA_DIR
         value: /app/data
       - key: TEMP_DIR
         value: /tmp/tg_video_compressor
     disk:
       name: compressor-data
-      mountPath: /app/data
-      sizeGB: 1
+      mountPath: /var/lib/telegram-bot-api
+      sizeGB: 5
